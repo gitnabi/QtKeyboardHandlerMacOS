@@ -28,9 +28,6 @@ public:
 public slots:
   void onKeyPressing(const CKeyPressing&);
   void onKeyReleasing(const CKeyReleasing&);
-
-private:
-  void stopListener() const noexcept;
 };
 
 } // namespace NSKeyboard
