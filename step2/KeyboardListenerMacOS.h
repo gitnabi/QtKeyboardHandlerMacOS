@@ -1,7 +1,6 @@
 #ifndef KEYBOARDLISTENERMACOS_H
 #define KEYBOARDLISTENERMACOS_H
 
-#include <QObject>
 #include <QDebug>
 
 #include <memory>
@@ -9,9 +8,7 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include <CoreFoundation/CoreFoundation.h>
 
-class CKeyboardListenerMacImpl : public QObject {
-    Q_OBJECT
-
+class CKeyboardListenerMacImpl {
     // https://fossies.org/linux/misc/llvm-12.0.0.src.tar.xz/llvm-12.0.0.src/tools/dsymutil/CFBundle.cpp
     template<typename T> struct CFDeleter {
         void operator()(T* ptr) {
