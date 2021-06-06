@@ -33,7 +33,6 @@ SOURCES += \
 HEADERS += \
     KeyIDMacOS.h \
     KeyPositionMacOS.h \
-    other_things/AnyGlobalAccess.h \
     KeyTextMaker.h \
     KeyboardHandler.h \
     KeyboardListenerMacOS.h \

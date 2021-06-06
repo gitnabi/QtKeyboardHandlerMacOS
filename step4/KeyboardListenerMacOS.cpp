@@ -60,15 +60,15 @@ CGEventRef CKeyboardListenerMacImpl::callbackEventTap(
   CKeyboardListenerMacImpl* Listener = getListener(UserInfo);
 
   CVKCode VKCode = CMacOSKeyboardAPI::getVKCode(Event);
-  if (VKCode == ::kVK_CapsLock) {
+  if (CMacOSKeyboardAPI::isCapsLock(VKCode)) {
     emit Listener->KeyPressing(
-          { ::CGEventGetTimestamp(Event),
+          { CMacOSKeyboardAPI::getEventTimestamp(Event),
             CKeyPositionMacOS::make(VKCode),
             CKeyIDMacOS::make(VKCode),
-            CMacOSKeyboardAPI::getLabel(VKCode),
+            CMacOSKeyboardAPI::getKeyLabel(VKCode),
             Listener->KeyTextMaker_.get(VKCode) });
     emit Listener->KeyReleasing(
-          { ::CGEventGetTimestamp(Event),
+          { CMacOSKeyboardAPI::getEventTimestamp(Event),
             CKeyPositionMacOS::make(VKCode),
             CKeyIDMacOS::make(VKCode), } );
     return Event;
@@ -76,14 +76,14 @@ CGEventRef CKeyboardListenerMacImpl::callbackEventTap(
 
   if (CMacOSKeyboardAPI::isPressing(Type, Listener->ShifterInfo_, VKCode)) {
     emit Listener->KeyPressing(
-          { ::CGEventGetTimestamp(Event),
+          { CMacOSKeyboardAPI::getEventTimestamp(Event),
             CKeyPositionMacOS::make(VKCode),
             CKeyIDMacOS::make(VKCode),
-            CMacOSKeyboardAPI::getLabel(VKCode),
+            CMacOSKeyboardAPI::getKeyLabel(VKCode),
             Listener->KeyTextMaker_.get(VKCode) });
   } else {
     emit Listener->KeyReleasing(
-          { ::CGEventGetTimestamp(Event),
+          { CMacOSKeyboardAPI::getEventTimestamp(Event),
             CKeyPositionMacOS::make(VKCode),
             CKeyIDMacOS::make(VKCode), } );
   }
