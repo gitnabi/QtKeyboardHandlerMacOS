@@ -4,7 +4,7 @@ namespace NSApplication {
 namespace NSKeyboard {
 namespace NSMacOS {
 
-CKeyPosition CKeyPositionMacOS::make(CVKCode VKCode) {
+CKeyPosition CKeyPositionMacOS::make(const CVKCode VKCode) {
   switch (VKCode) {
       case ::kVK_ANSI_A:                    // 0x00
           return CKeyPosEnum::AC01;

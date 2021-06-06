@@ -29,7 +29,7 @@ public:
   template<typename T>
   using UniquePtr = std::unique_ptr<std::remove_pointer_t<T>, CFDeleter<std::remove_pointer_t<T>>>;
 // ----------------------------------------------------------------------------
-  using CVKCode = int64_t;
+  using CVKCode = CGKeyCode;
   using CEventTapPtr = UniquePtr<CFMachPortRef>;
 
   static CFMachPortRef createEventTapForKeyboard(CGEventTapCallBack, CKeyboardListenerMacImpl*);

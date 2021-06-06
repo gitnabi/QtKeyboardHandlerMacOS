@@ -12,7 +12,7 @@ QString CKeyTextMaker::get(const CVKCode VKCode) {
   }
 
   if (CMacOSKeyboardAPI::isEqual(CurrentKeyboardLayoutInputSource.get(),
-                                        KeyboardLayoutInputSource_.get()) == false) {
+                                 KeyboardLayoutInputSource_.get())       == false) {
     DeadKeyState_ = 0;
   }
   KeyboardLayoutInputSource_ = std::move(CurrentKeyboardLayoutInputSource);
@@ -27,8 +27,8 @@ QString CKeyTextMaker::get(const CVKCode VKCode) {
                                                           KeyboardLayout,
                                                           VKCode,
                                                           &DeadKeyState_,
-                                                          Text);
-  return getPrintableText(QString::fromUtf16(Text, ActualStringLength));
+                                                          Text_);
+  return getPrintableText(QString::fromUtf16(Text_, ActualStringLength));
 }
 
 QString CKeyTextMaker::getPrintableText(QString&& Text) const {

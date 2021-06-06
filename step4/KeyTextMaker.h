@@ -12,7 +12,7 @@ class CKeyTextMaker {
   using CInputSourcePtr = CMacOSKeyboardAPI::UniquePtr<TISInputSourceRef>;
 
 public:
-  QString get(CVKCode);
+  QString get(const CVKCode);
 
 private:
   QString getPrintableText(QString&&) const;
@@ -20,7 +20,7 @@ private:
   UInt32 DeadKeyState_ = 0;
   CInputSourcePtr KeyboardLayoutInputSource_ = nullptr;
 
-  UniChar Text[CMacOSKeyboardAPI::kMaxStringLength];
+  UniChar Text_[CMacOSKeyboardAPI::kMaxStringLength];
 };
 
 } // namespace NSMacOS

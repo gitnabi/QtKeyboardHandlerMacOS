@@ -12,7 +12,7 @@ class CKeyIDMacOS {
   using CVKCode = CMacOSKeyboardAPI::CVKCode;
 
 public:
-  static CKeyID make(CVKCode VKey);
+  static CKeyID make(const CVKCode VKey);
 };
 
 } // namespace NSMacOS

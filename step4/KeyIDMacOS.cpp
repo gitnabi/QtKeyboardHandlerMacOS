@@ -4,7 +4,7 @@ namespace NSApplication {
 namespace NSKeyboard {
 namespace NSMacOS {
 
-CKeyID CKeyIDMacOS::make(CVKCode VKCode) {
+CKeyID CKeyIDMacOS::make(const CVKCode VKCode) {
   switch (VKCode) {
       case ::kVK_ANSI_A:                    // 0x00
           return CKeyIDEnum::A;
