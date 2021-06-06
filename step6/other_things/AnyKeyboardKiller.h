@@ -1,0 +1,46 @@
+#ifndef NSAPPLICATION_NSKEYBOARD_CANYKEYBOARDKILLER_H
+#define NSAPPLICATION_NSKEYBOARD_CANYKEYBOARDKILLER_H
+
+#include "other_things/AnyMovable.h"
+
+namespace NSApplication {
+namespace NSKeyboard {
+namespace NSKeyboardKillerDetail {
+
+namespace nl = NSLibrary;
+
+template<class TBase>
+class IAnyKeyboardKiller : public TBase {
+public:
+  virtual void stopListener() const = 0;
+
+protected:
+  virtual ~IAnyKeyboardKiller() = default;
+};
+
+template<class TBase, class TObject>
+class CAnyKeyboardKillerImpl : public TBase {
+  using CBase = TBase;
+
+public:
+  using CBase::CBase;
+  void stopListener() const {
+    CBase::Object().stopListener();
+  }
+};
+
+using CAnyKeyboardKiller =
+    nl::CAnyMovable<IAnyKeyboardKiller, CAnyKeyboardKillerImpl>;
+} // namespace NSKeyboardKillerDetail
+
+class CAnyKeyboardKiller : public NSKeyboardKillerDetail::CAnyKeyboardKiller {
+  using CBase = NSKeyboardKillerDetail::CAnyKeyboardKiller;
+
+public:
+  using CBase::CBase;
+};
+
+} // namespace NSKeyboard
+} // namespace NSApplication
+
+#endif // NSAPPLICATION_NSKEYBOARD_CANYKEYBOARDKILLER_H
