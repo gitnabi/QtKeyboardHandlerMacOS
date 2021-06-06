@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 
 #include "other_things/TimerAccess.h"
-#include "KeyboardHandler.h"
+#include "other_things/KeyboardHandler.h"
 
 #include <QApplication>
 

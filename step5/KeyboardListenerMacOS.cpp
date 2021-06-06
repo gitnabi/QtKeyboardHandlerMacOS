@@ -97,10 +97,10 @@ CGEventRef CKeyboardListenerMacImpl::callbackEventTap(
 // ########################## getKeyLabel
 QChar CKeyboardListenerMacImpl::getKeyLabel(CVKCode VKCode) {
   QString KeyLabel = CMacOSKeyboardAPI::getKeyLabel(VKCode);
-  if (KeyLabel.size() == 0 || KeyLabel.front().isPrint() == false) {
-    return QChar(0);
+  if (KeyLabel.size() != 0 && KeyLabel.front().isPrint()) {
+    return KeyLabel.front();
   }
-  return KeyLabel.front();
+  return QChar(0);
 }
 
 // ########################## getListener
