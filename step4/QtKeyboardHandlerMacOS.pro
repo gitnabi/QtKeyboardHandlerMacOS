@@ -13,22 +13,36 @@ CONFIG += \
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 macx{
+    LIBS += -framework Carbon
     LIBS += -framework CoreFoundation
     LIBS += -framework CoreGraphics
-    LIBS += -framework Carbon
 }
 
+
 SOURCES += \
+    KeyIDMacOS.cpp \
+    KeyPositionMacOS.cpp \
+    KeyTextMaker.cpp \
     KeyboardHandler.cpp \
     KeyboardListenerMacOS.cpp \
+    MacOSKeyboardAPI.cpp \
+    ShifterInfo.cpp \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
+    KeyIDMacOS.h \
+    KeyPositionMacOS.h \
+    other_things/AnyGlobalAccess.h \
+    KeyTextMaker.h \
     KeyboardHandler.h \
     KeyboardListenerMacOS.h \
+    MacOSKeyboardAPI.h \
     MainWindow.h \
-    RawKeyEvent.h
+    RawKeyEvent.h \
+    ShifterInfo.h \
+    other_things/KeyID.h \
+    other_things/KeyPosition.h
 
 FORMS += \
     MainWindow.ui
