@@ -6,7 +6,6 @@
 #include <Carbon/Carbon.h>
 
 #include <unordered_map>
-#include <vector>
 
 namespace NSApplication {
 namespace NSKeyboard {

@@ -24,7 +24,7 @@ class CKeyboardListenerMacImpl : public QObject {
   Q_OBJECT
 
   using CVKCode = CMacOSKeyboardAPI::CVKCode;
-  using CEventTapPtr = CMacOSKeyboardAPI::CEventTapPtr;
+  using CEventTapUPtr = CMacOSKeyboardAPI::CEventTapUPtr;
 
 public:
   CKeyboardListenerMacImpl(CKeyboardHandler*);
@@ -40,7 +40,7 @@ private:
   static CGEventRef callbackEventTap(CGEventTapProxy, CGEventType, CGEventRef, void*);
   static CKeyboardListenerMacImpl* getListener(void*);
 
-  CEventTapPtr EventTap_;
+  CEventTapUPtr EventTap_;
   CShifterInfo ShifterInfo_;
   CKeyTextMaker KeyTextMaker_;
 };

@@ -112,6 +112,10 @@ bool CMacOSKeyboardAPI::isPressing(CGEventType Type, CShifterInfo& ShifterInfo, 
   return Type == ::kCGEventKeyDown;
 }
 
+bool CMacOSKeyboardAPI::isCapsLock(const CVKCode VKCode) {
+  return VKCode == ::kVK_CapsLock;
+}
+
 // ########################## isEqual
 bool CMacOSKeyboardAPI::isEqual(CFTypeRef First, CFTypeRef Second) {
   if (First && Second) {
@@ -121,8 +125,8 @@ bool CMacOSKeyboardAPI::isEqual(CFTypeRef First, CFTypeRef Second) {
 }
 
 
-// ########################## getLabel
-QString CMacOSKeyboardAPI::getLabel(const CVKCode VKCode) {
+// ########################## getKeyLabel
+QString CMacOSKeyboardAPI::getKeyLabel(const CVKCode VKCode) {
   switch (VKCode) {
       //############################################# Modifier keys
       case ::kVK_RightCommand:  // 54 : 0x36
@@ -371,8 +375,8 @@ QString CMacOSKeyboardAPI::getLabel(const CVKCode VKCode) {
   }
 }
 
-// ########################## getName
-QString CMacOSKeyboardAPI::getName(const CVKCode VKCode) {
+// ########################## getKeyName
+QString CMacOSKeyboardAPI::getKeyName(const CVKCode VKCode) {
     switch (VKCode) {
         //############################################# Modifier keys
         case ::kVK_RightCommand:            // 54 : 0x36

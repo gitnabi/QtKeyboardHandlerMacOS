@@ -30,7 +30,7 @@ public:
   using UniquePtr = std::unique_ptr<std::remove_pointer_t<T>, CFDeleter<std::remove_pointer_t<T>>>;
 // ----------------------------------------------------------------------------
   using CVKCode = CGKeyCode;
-  using CEventTapPtr = UniquePtr<CFMachPortRef>;
+  using CEventTapUPtr = UniquePtr<CFMachPortRef>;
 
   static CFMachPortRef createEventTapForKeyboard(CGEventTapCallBack, CKeyboardListenerMacImpl*);
   static CFRunLoopSourceRef createRunLoopSourceForEventTap(CFMachPortRef);
@@ -46,10 +46,11 @@ public:
   static bool getShifterState(CVKCode VKCode);
 
   static bool isPressing(CGEventType, CShifterInfo&, CVKCode);
+  static bool isCapsLock(const CVKCode);
   static bool isEqual(CFTypeRef, CFTypeRef);
 
-  static QString getLabel(const CVKCode);
-  static QString getName(const CVKCode);
+  static QString getKeyLabel(const CVKCode);
+  static QString getKeyName(const CVKCode);
 
   static constexpr UniCharCount kMaxStringLength = 0xFF; // 255
 };
