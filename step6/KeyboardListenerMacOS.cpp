@@ -47,14 +47,10 @@ void CKeyboardListenerMacImpl::addEventTapToRunLoop() {
   CMacOSKeyboardAPI::UniquePtr<CFRunLoopSourceRef> RunLoopSource(
                         CMacOSKeyboardAPI::createRunLoopSourceForEventTap(EventTap_.get()));
   if (RunLoopSource.get() == NULL) {
-    throw std::runtime_error("Failed to create RunLoop for EventTap");
+    throw std::runtime_error("Failed to create RunLoopSource for EventTap");
   }
 
-  CFRunLoopRef RunLoop = CMacOSKeyboardAPI::getCurrentRunLoop();
-  if (RunLoop == NULL) {
-    throw std::runtime_error("No CFRunLoop object for the current thread!");
-  }
-  CMacOSKeyboardAPI::addSourceRunLoop(RunLoop, RunLoopSource.get());
+  CMacOSKeyboardAPI::addSourceRunLoopТoCurrentRunLoop(RunLoopSource.get());
 }
 
 // ########################## callbackEventTap
@@ -80,7 +76,7 @@ CGEventRef CKeyboardListenerMacImpl::callbackEventTap(
     emit Listener->KeyReleasing(
           { Time,
             CKeyPositionMacOS::make(VKCode),
-            CKeyIDMacOS::make(VKCode), } );
+            CKeyIDMacOS::make(VKCode) } );
     return Event;
   }
 
@@ -95,7 +91,7 @@ CGEventRef CKeyboardListenerMacImpl::callbackEventTap(
     emit Listener->KeyReleasing(
           { Time,
             CKeyPositionMacOS::make(VKCode),
-            CKeyIDMacOS::make(VKCode), } );
+            CKeyIDMacOS::make(VKCode) } );
   }
   return Event;
 }
@@ -115,30 +111,23 @@ void CKeyboardListenerMacImpl::addMessagePortToRunLoop() {
   CMacOSKeyboardAPI::UniquePtr<CFRunLoopSourceRef> RunLoopSource(
                         CMacOSKeyboardAPI::createRunLoopSourceForMessagePort(MessagePort_.get()));
   if (RunLoopSource.get() == NULL) {
-    throw std::runtime_error("Failed to create RunLoop for MessagePort");
+    throw std::runtime_error("Failed to create RunLoopSource for MessagePort");
   }
-  CFRunLoopRef RunLoop = CMacOSKeyboardAPI::getCurrentRunLoop();
-  if (RunLoop == NULL) {
-    throw std::runtime_error("No CFRunLoop object for the current thread!");
-  }
-  CMacOSKeyboardAPI::addSourceRunLoop(RunLoop, RunLoopSource.get());
+
+  CMacOSKeyboardAPI::addSourceRunLoopТoCurrentRunLoop(RunLoopSource.get());
 }
 
 // ########################## callbackMessagePort
 CFDataRef
 CKeyboardListenerMacImpl::callbackMessagePort(CFMessagePortRef, SInt32, CFDataRef, void*) {
-  CFRunLoopRef RunLoop = CMacOSKeyboardAPI::getCurrentRunLoop();
-  if (RunLoop == NULL) {
-    throw std::runtime_error("No CFRunLoop object for the current thread!");
-  }
-  CMacOSKeyboardAPI::stopRunLoop(RunLoop);
+  CMacOSKeyboardAPI::stopCurrentRunLoop();
   return NULL;
 }
 
 // ########################## getKeyLabel
 QChar CKeyboardListenerMacImpl::getKeyLabel(CVKCode VKCode) {
   QString KeyLabel = CMacOSKeyboardAPI::getKeyLabel(VKCode);
-  if (KeyLabel.size() != 0 && KeyLabel.front().isPrint()) {
+  if (KeyLabel.size() > 0 && KeyLabel.front().isPrint()) {
     return KeyLabel.front();
   }
   return QChar(0);
@@ -157,7 +146,7 @@ CKeyboardListenerMacImpl* CKeyboardListenerMacImpl::getListener(void* ListenerIn
 CKiller::CKiller(CFMessagePortRef KillerPort) : KillerPort_(KillerPort) {}
 void CKiller::stopListener() const {
   if (CMacOSKeyboardAPI::sendEmptyMessage(KillerPort_) != kCFMessagePortSuccess) {
-    throw std::runtime_error("Failed to kill message port");
+    throw std::runtime_error("Failed to send message via CKiller");
   }
 }
 

@@ -10,7 +10,7 @@ QString CKeyTextMaker::get(const CVKCode VKCode) {
   CInputSourcePtr CurrentKeyboardLayoutInputSource(
       CMacOSKeyboardAPI::copyCurrentKeyboardLayoutInputSource());
   if (!CurrentKeyboardLayoutInputSource.get()) {
-    Q_ASSERT(false && "Unknown keyboard!");
+    throw std::runtime_error("Failed to copy KeyboardLayoutInputSource");
   }
 
   if (CMacOSKeyboardAPI::isEqual(CurrentKeyboardLayoutInputSource.get(),
@@ -22,14 +22,11 @@ QString CKeyTextMaker::get(const CVKCode VKCode) {
   const UCKeyboardLayout* KeyboardLayout =
       CMacOSKeyboardAPI::getCurrentKeyboardLayout(KeyboardLayoutInputSource_.get());
   if (KeyboardLayout == NULL) {
-    Q_ASSERT(false && "Unknown keyboard layout!");
+     throw std::runtime_error("Failed to get KeyboardLayout");
   }
 
-  UniCharCount ActualStringLength = CMacOSKeyboardAPI::getUnicodeString(
-                                                          KeyboardLayout,
-                                                          VKCode,
-                                                          &DeadKeyState_,
-                                                          Text_);
+  UniCharCount ActualStringLength =
+      CMacOSKeyboardAPI::getUnicodeString(KeyboardLayout, VKCode, &DeadKeyState_, Text_);
   return getPrintableText(QString::fromUtf16(Text_, ActualStringLength));
 }
 

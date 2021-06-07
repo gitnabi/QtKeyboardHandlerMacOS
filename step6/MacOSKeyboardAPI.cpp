@@ -26,12 +26,6 @@ CMacOSKeyboardAPI::createRunLoopSourceForEventTap(CFMachPortRef MachPort) {
   return ::CFMachPortCreateRunLoopSource(::kCFAllocatorDefault, MachPort, 0);
 }
 
-// ########################## getCurrentRunLoop
-CFRunLoopRef CMacOSKeyboardAPI::getCurrentRunLoop() {
-  return ::CFRunLoopGetCurrent();
-}
-
-
 // ########################## createMessagePort
 CFMessagePortRef CMacOSKeyboardAPI::createMessagePort(CFMessagePortCallBack callback) {
   UniquePtr<CFStringRef> Name(
@@ -45,9 +39,9 @@ CMacOSKeyboardAPI::createRunLoopSourceForMessagePort(CFMessagePortRef MessagePor
   return CFMessagePortCreateRunLoopSource(kCFAllocatorDefault, MessagePort, 0);
 }
 
-// ########################## stopRunLoop
-void CMacOSKeyboardAPI::stopRunLoop(CFRunLoopRef RunLoop) {
-  ::CFRunLoopStop(RunLoop);
+// ########################## stopCurrentRunLoop
+void CMacOSKeyboardAPI::stopCurrentRunLoop() {
+  ::CFRunLoopStop(::CFRunLoopGetCurrent());
 }
 
 // ########################## sendMessage
@@ -64,10 +58,9 @@ SInt32 CMacOSKeyboardAPI::sendEmptyMessage(CFMessagePortRef MessagePort) {
 }
 
 
-// ########################## addSourceRunLoop
-void CMacOSKeyboardAPI::addSourceRunLoop(CFRunLoopRef       RunLoop,
-                                         CFRunLoopSourceRef RunLoopSource) {
-  return ::CFRunLoopAddSource(RunLoop, RunLoopSource, ::kCFRunLoopCommonModes);
+// ########################## addSourceRunLoopТoCurrentRunLoop
+void CMacOSKeyboardAPI::addSourceRunLoopТoCurrentRunLoop(CFRunLoopSourceRef RunLoopSource) {
+  return ::CFRunLoopAddSource(::CFRunLoopGetCurrent(), RunLoopSource, ::kCFRunLoopCommonModes);
 }
 
 
@@ -112,9 +105,7 @@ UniCharCount CMacOSKeyboardAPI::getUnicodeString(
           kMaxStringLength,
           &ActualStringLength,
           UnicodeString);
-  if (Status != noErr) {
-    Q_ASSERT(false && "UCKeyTranslate failed with error!");
-  }
+  Q_ASSERT(Status == noErr && "UCKeyTranslate failed with error!");
   return ActualStringLength;
 }
 

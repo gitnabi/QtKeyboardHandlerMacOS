@@ -35,14 +35,13 @@ public:
 
   static CFMachPortRef createEventTapForKeyboard(CGEventTapCallBack, CKeyboardListenerMacImpl*);
   static CFRunLoopSourceRef createRunLoopSourceForEventTap(CFMachPortRef);
-  static CFRunLoopRef getCurrentRunLoop();
 
   static CFMessagePortRef createMessagePort(CFMessagePortCallBack);
   static CFRunLoopSourceRef createRunLoopSourceForMessagePort(CFMessagePortRef);
-  static void stopRunLoop(CFRunLoopRef);
+  static void stopCurrentRunLoop();
   static SInt32 sendEmptyMessage(CFMessagePortRef);
 
-  static void addSourceRunLoop(CFRunLoopRef, CFRunLoopSourceRef);
+  static void addSourceRunLoopТoCurrentRunLoop(CFRunLoopSourceRef);
 
   static TISInputSourceRef copyCurrentKeyboardLayoutInputSource();
   static const UCKeyboardLayout* getCurrentKeyboardLayout(TISInputSourceRef);
